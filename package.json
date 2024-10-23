@@ -1,16 +1,20 @@
 {
     "name": "nest-swagger-validator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
-    "main": "index.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "npx tsc",
         "publish": "npm run build && npm publish",
         "update": "npm update"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": [
+        "Nest JS",
+        "validator",
+        "Swagger"
+    ],
+    "author": "jhonathanr2002",
+    "license": "MIT",
     "dependencies": {
         "@nestjs/common": "^10.4.6",
         "@nestjs/swagger": "^7.4.2",
