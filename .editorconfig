@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = false
+trim_trailing_whitespace = true
+end_of_line = lf
+max_line_length = 140
+
+[*.{ts,js,json,html,xml,vue,css,sql,xml,java}]
+indent_size = 4
+indent_style = space
+
+[Jenkinsfile]
+indent_size = 2
+indent_style = space
+
+[*.dbml]
+indent_style = tab
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
