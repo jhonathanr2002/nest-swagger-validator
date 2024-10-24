@@ -1,12 +1,12 @@
 {
     "name": "nest-swagger-validator",
-    "version": "1.0.2",
+    "version": "1.0.5",
     "description": "",
     "main": "dist/index.js",
     "scripts": {
         "build": "npx tsc",
-        "publish": "npm run build && npm publish",
-        "update": "npm update"
+        "publish:npm": "npm run build && npm publish",
+        "update": "pnpm update"
     },
     "keywords": [
         "Nest JS",
