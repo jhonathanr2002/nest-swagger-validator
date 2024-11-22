@@ -11,4 +11,5 @@ export * from './decorators/is-string-validator-option.interface';
 export * from './decorators/is-string-validator.decorator';
 export * from './decorators/is-uuid-validator-option.interface';
 export * from './decorators/is-uuid-validator.decorator';
+
 export * from './enums/errors.enum';
