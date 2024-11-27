@@ -1,4 +1,4 @@
-import { DefaultValidatorOption } from "./default-validator-option.interface";
+import { DefaultValidatorOption } from './default-validator-option.interface';
 
 export interface IsStringValidatorOption extends DefaultValidatorOption {
     minLength?: number,
