@@ -1,3 +1,5 @@
+import exceptionFactorySwagger from './methods/exception-factory-swagger';
+
 export * from './decorators/default-validator-option.interface';
 export * from './decorators/is-array-validator-option.interface';
 export * from './decorators/is-array-validator.decorator';
@@ -13,3 +15,7 @@ export * from './decorators/is-uuid-validator-option.interface';
 export * from './decorators/is-uuid-validator.decorator';
 
 export * from './enums/errors.enum';
+
+export {
+    exceptionFactorySwagger
+};
