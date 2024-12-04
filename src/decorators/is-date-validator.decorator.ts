@@ -1,12 +1,12 @@
-import { IsDateString } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import {IsDateString} from 'class-validator';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
 
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDateValidatorOption } from './is-date-validator-option.interface';
-import { ErrorEnum } from '../enums/errors.enum';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsDateValidatorOption} from './is-date-validator-option.interface';
+import {ErrorEnum} from '../enums/errors.enum';
 
 export function IsDateValidator(options?: IsDateValidatorOption) {
-    return function(target: NonNullable<unknown>, propertyKey: string) {
+    return function (target: NonNullable<unknown>, propertyKey: string) {
         const _options: IsDateValidatorOption = options ?? {};
 
         if (_options.swaggerDocs === true) {

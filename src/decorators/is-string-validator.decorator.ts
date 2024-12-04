@@ -1,11 +1,11 @@
-import { IsStringValidatorOption } from './is-string-validator-option.interface';
-import { IsIn, IsString, MaxLength, MinLength } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
-import { ApiProperty } from '@nestjs/swagger';
-import { ErrorEnum } from '../enums/errors.enum';
+import {IsStringValidatorOption} from './is-string-validator-option.interface';
+import {IsIn, IsString, MaxLength, MinLength} from 'class-validator';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
+import {ApiProperty} from '@nestjs/swagger';
+import {ErrorEnum} from '../enums/errors.enum';
 
 export function IsStringValidator(options?: Partial<IsStringValidatorOption>) {
-    return function(target: NonNullable<unknown>, propertyKey: string) {
+    return function (target: NonNullable<unknown>, propertyKey: string) {
         const _options: IsStringValidatorOption = options ?? {};
         if (_options.swaggerDocs === true) {
             if (Array.isArray(_options.options)) {

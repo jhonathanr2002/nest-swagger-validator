@@ -1,12 +1,12 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import {ArrayMaxSize, ArrayMinSize, IsArray} from 'class-validator';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
 
-import { ApiProperty } from '@nestjs/swagger';
-import { IsArrayValidatorOption } from './is-array-validator-option.interface';
-import { ErrorEnum } from '../enums/errors.enum';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsArrayValidatorOption} from './is-array-validator-option.interface';
+import {ErrorEnum} from '../enums/errors.enum';
 
 export function IsArrayValidator(options?: IsArrayValidatorOption) {
-    return function(target: NonNullable<unknown>, propertyKey: string) {
+    return function (target: NonNullable<unknown>, propertyKey: string) {
         const _options: IsArrayValidatorOption = options ?? {};
 
         if (_options.swaggerDocs === true) {

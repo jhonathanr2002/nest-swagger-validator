@@ -1,12 +1,12 @@
-import { IsUUID } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
-import { ApiProperty } from '@nestjs/swagger';
+import {IsUUID} from 'class-validator';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
+import {ApiProperty} from '@nestjs/swagger';
 import * as ValidatorJS from 'validator';
-import { ErrorEnum } from '../enums/errors.enum';
-import { IsUuidValidatorOption } from './is-uuid-validator-option.interface';
+import {ErrorEnum} from '../enums/errors.enum';
+import {IsUuidValidatorOption} from './is-uuid-validator-option.interface';
 
 export function IsUuidValidator(uuidVersion: ValidatorJS.UUIDVersion, options?: IsUuidValidatorOption) {
-    return function(target: NonNullable<unknown>, propertyKey: string) {
+    return function (target: NonNullable<unknown>, propertyKey: string) {
         const _options: IsUuidValidatorOption = options ?? {};
 
         if (_options.swaggerDocs === true) {

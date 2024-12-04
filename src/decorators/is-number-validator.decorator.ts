@@ -1,12 +1,12 @@
-import { IsNumber } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import {IsNumber} from 'class-validator';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
 
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberValidatorOption } from './is-number-validator-option.interface';
-import { ErrorEnum } from '../enums/errors.enum';
+import {ApiProperty} from '@nestjs/swagger';
+import {IsNumberValidatorOption} from './is-number-validator-option.interface';
+import {ErrorEnum} from '../enums/errors.enum';
 
 export function IsNumberValidator(options?: IsNumberValidatorOption) {
-    return function(target: NonNullable<unknown>, propertyKey: string) {
+    return function (target: NonNullable<unknown>, propertyKey: string) {
         const _options: IsNumberValidatorOption = options ?? {};
 
         if (_options.swaggerDocs === true) {
