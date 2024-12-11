@@ -1,4 +1,5 @@
 import * as ValidatorJS from 'validator';
+import { Type } from '@nestjs/common';
 import { ApiPropertyOptions } from "@nestjs/swagger";
 import { IsNumberOptions } from "class-validator";
 
@@ -40,6 +41,7 @@ export interface IUuidValidatorOption extends IValidatorOption {
 export interface IArrayValidatorOption extends IValidatorOption {
     ruleType: "array";
     arrayOptions: {
+        type?: Type<unknown> | Function | [Function] | string | Record<string, any>;
         min?: number;
         max?: number;
     }
