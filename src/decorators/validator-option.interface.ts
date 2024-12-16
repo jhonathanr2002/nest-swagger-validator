@@ -41,7 +41,7 @@ export interface IUuidValidatorOption extends IValidatorOption {
 export interface IArrayValidatorOption extends IValidatorOption {
     ruleType: "array";
     arrayOptions: {
-        type?: Type<unknown> | Function | [Function] | string | Record<string, any>;
+        type: Type<unknown> | Function | [Function] | string | Record<string, any> | "uuid";
         min?: number;
         max?: number;
     }

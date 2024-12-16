@@ -26,6 +26,7 @@ export function IsValidator(options: ValidatorOption) {
     return function (target: NonNullable<unknown>, propertyKey: string) {
         if (options.swaggerDocs === true) {
             const _options = options as IValidatorOption;
+
             if (_options['stringOptions'] && _options['stringOptions']['enum']) {
                 if (typeof _options['apiPropertyOptions'] !== "object" || (typeof _options['apiPropertyOptions'] === "object" && !_options['apiPropertyOptions']['enum'])) {
                     if (!_options['apiPropertyOptions']) {
@@ -33,6 +34,14 @@ export function IsValidator(options: ValidatorOption) {
                     }
 
                     _options['apiPropertyOptions']['enum'] = options['stringOptions']['enum'];
+                }
+            } if (_options['arrayOptions']) {
+                _options['apiPropertyOptions']['isArray'] = true;
+
+                if (_options['arrayOptions']['type'] === "uuid") {
+                    _options['apiPropertyOptions']['type'] = String;
+                } else {
+                    _options['apiPropertyOptions']['type'] = _options['arrayOptions']['type'];
                 }
             }
 
@@ -58,6 +67,21 @@ export function IsValidator(options: ValidatorOption) {
                     });
                 },
             })(target, propertyKey);
+
+            if (_options['arrayOptions']['type'] === "uuid") {
+                IsUUID("all", {
+                    always: true,
+                    each: true,
+                    message: (validationArguments: ValidationArguments): string => {
+                        return JSON.stringify({
+                            property: validationArguments.property,
+                            messageCode: ErrorEnum.IS_NOT_UUID,
+                            value: validationArguments.value,
+                            args: {},
+                        });
+                    },
+                })(target, propertyKey);
+            }
 
             if (typeof _options.arrayOptions.min === 'number') {
                 ArrayMinSize(_options.arrayOptions.min, {
