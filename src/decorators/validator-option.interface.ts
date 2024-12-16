@@ -1,7 +1,7 @@
 import * as ValidatorJS from 'validator';
-import { Type } from '@nestjs/common';
-import { ApiPropertyOptions } from "@nestjs/swagger";
-import { IsNumberOptions } from "class-validator";
+import {Type} from '@nestjs/common';
+import {ApiPropertyOptions} from "@nestjs/swagger";
+import {IsNumberOptions} from "class-validator";
 
 export interface IValidatorOption {
     swaggerDocs: boolean;

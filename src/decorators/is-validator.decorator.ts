@@ -11,9 +11,9 @@ import {
     MaxLength,
     MinLength
 } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
-import { ApiProperty } from '@nestjs/swagger';
-import { ErrorEnum } from '../enums/errors.enum';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
+import {ApiProperty} from '@nestjs/swagger';
+import {ErrorEnum} from '../enums/errors.enum';
 import ValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
@@ -35,7 +35,8 @@ export function IsValidator(options: ValidatorOption) {
 
                     _options['apiPropertyOptions']['enum'] = options['stringOptions']['enum'];
                 }
-            } if (_options['arrayOptions']) {
+            }
+            if (_options['arrayOptions']) {
                 _options['apiPropertyOptions']['isArray'] = true;
 
                 if (_options['arrayOptions']['type'] === "uuid") {
