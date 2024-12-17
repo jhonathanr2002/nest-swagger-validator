@@ -13,7 +13,7 @@ import {
     MinLength
 } from 'class-validator';
 import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
-import {ApiProperty} from '@nestjs/swagger';
+import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {ErrorEnum} from '../enums/errors.enum';
 import ValidatorOption, {
     IArrayValidatorOption,
@@ -67,7 +67,11 @@ export function IsValidator(options: ValidatorOption) {
             }
 
             if (typeof _options['apiPropertyOptions'] == "object") {
-                ApiProperty(_options['apiPropertyOptions'])(target, propertyKey);
+                if(_options['apiPropertyOptions'].required === true) {
+                    ApiPropertyOptional(_options['apiPropertyOptions'])(target, propertyKey);
+                } else {
+                    ApiProperty(_options['apiPropertyOptions'])(target, propertyKey);
+                }
             } else {
                 ApiProperty()(target, propertyKey);
             }
@@ -184,7 +188,7 @@ export function IsValidator(options: ValidatorOption) {
                 message: (validationArguments: ValidationArguments): string => {
                     return JSON.stringify({
                         property: validationArguments.property,
-                        messageCode: ErrorEnum.IS_NOT_NUMBER,
+                        messageCode: ErrorEnum.IS_NOT_STRING,
                         value: validationArguments.value,
                         args: {},
                     });
