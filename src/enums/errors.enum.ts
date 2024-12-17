@@ -10,5 +10,6 @@ export enum ErrorEnum {
     IS_NOT_ARRAY = 'isNotArray',
     MIN_ARRAY_LENGTH = 'minArrayLength',
     MAX_ARRAY_LENGTH = 'maxArrayLength',
-    IS_NOT_DATE = 'isNotDate'
+    IS_NOT_DATE = 'isNotDate',
+    IS_OPTIONAL = 'isOptional'
 }

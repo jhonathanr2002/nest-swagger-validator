@@ -6,14 +6,15 @@ import {
     IsDateString,
     IsIn,
     IsNumber,
+    IsOptional,
     IsString,
     IsUUID,
     MaxLength,
     MinLength
 } from 'class-validator';
-import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
-import {ApiProperty} from '@nestjs/swagger';
-import {ErrorEnum} from '../enums/errors.enum';
+import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import { ApiProperty } from '@nestjs/swagger';
+import { ErrorEnum } from '../enums/errors.enum';
 import ValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
@@ -24,15 +25,34 @@ import ValidatorOption, {
 
 export function IsValidator(options: ValidatorOption) {
     return function (target: NonNullable<unknown>, propertyKey: string) {
+        if (!(typeof options.apiPropertyOptions == "object")) {
+            options.apiPropertyOptions = {};
+        }
+
+        if (typeof options.apiPropertyOptions.required !== "boolean") {
+            options.apiPropertyOptions.required = true;
+        }
+
+        if (options.apiPropertyOptions.required === false) {
+            IsOptional({
+                always: true,
+                each: true,
+                message: (validationArguments: ValidationArguments): string => {
+                    return JSON.stringify({
+                        property: validationArguments.property,
+                        messageCode: ErrorEnum.IS_OPTIONAL,
+                        value: validationArguments.value,
+                        args: {},
+                    });
+                },
+            })(target, propertyKey);
+        }
+
         if (options.swaggerDocs === true) {
             const _options = options as IValidatorOption;
 
             if (_options['stringOptions'] && _options['stringOptions']['enum']) {
                 if (typeof _options['apiPropertyOptions'] !== "object" || (typeof _options['apiPropertyOptions'] === "object" && !_options['apiPropertyOptions']['enum'])) {
-                    if (!_options['apiPropertyOptions']) {
-                        _options['apiPropertyOptions'] = {};
-                    }
-
                     _options['apiPropertyOptions']['enum'] = options['stringOptions']['enum'];
                 }
             }
@@ -52,6 +72,8 @@ export function IsValidator(options: ValidatorOption) {
                 ApiProperty()(target, propertyKey);
             }
         }
+
+
 
         if (options.ruleType === "array") {
             const _options = options as IArrayValidatorOption;
