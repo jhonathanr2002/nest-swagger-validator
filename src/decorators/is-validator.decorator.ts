@@ -12,9 +12,9 @@ import {
     MaxLength,
     MinLength
 } from 'class-validator';
-import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
-import { ApiProperty } from '@nestjs/swagger';
-import { ErrorEnum } from '../enums/errors.enum';
+import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
+import {ApiProperty} from '@nestjs/swagger';
+import {ErrorEnum} from '../enums/errors.enum';
 import ValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
@@ -72,7 +72,6 @@ export function IsValidator(options: ValidatorOption) {
                 ApiProperty()(target, propertyKey);
             }
         }
-
 
 
         if (options.ruleType === "array") {
