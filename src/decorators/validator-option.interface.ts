@@ -5,7 +5,7 @@ import {IsNumberOptions} from "class-validator";
 
 export interface IValidatorOption {
     swaggerDocs: boolean;
-    ruleType: "boolean" | "date" | "number" | "string" | "uuid" | "array";
+    ruleType: "boolean" | "date" | "number" | "string" | "uuid" | "array" | "property";
     apiPropertyOptions?: ApiPropertyOptions
 }
 
