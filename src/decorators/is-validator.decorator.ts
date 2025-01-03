@@ -12,9 +12,9 @@ import {
     MaxLength,
     MinLength
 } from 'class-validator';
-import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
-import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {ErrorEnum} from '../enums/errors.enum';
+import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ErrorEnum } from '../enums/errors.enum';
 import ValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
@@ -53,9 +53,10 @@ export function IsValidator(options: ValidatorOption) {
 
             if (_options['stringOptions'] && _options['stringOptions']['enum']) {
                 if (typeof _options['apiPropertyOptions'] !== "object" || (typeof _options['apiPropertyOptions'] === "object" && !_options['apiPropertyOptions']['enum'])) {
-                    _options['apiPropertyOptions']['enum'] = options['stringOptions']['enum'];
+                    _options['apiPropertyOptions']['enum'] = () => _options['stringOptions']['enum'];
                 }
             }
+
             if (_options['arrayOptions']) {
                 _options['apiPropertyOptions']['isArray'] = true;
 
@@ -67,7 +68,7 @@ export function IsValidator(options: ValidatorOption) {
             }
 
             if (typeof _options['apiPropertyOptions'] == "object") {
-                if(_options['apiPropertyOptions'].required === true) {
+                if (_options['apiPropertyOptions'].required === true) {
                     ApiPropertyOptional(_options['apiPropertyOptions'])(target, propertyKey);
                 } else {
                     ApiProperty(_options['apiPropertyOptions'])(target, propertyKey);

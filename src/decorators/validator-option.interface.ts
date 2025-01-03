@@ -1,7 +1,7 @@
 import * as ValidatorJS from 'validator';
-import {Type} from '@nestjs/common';
-import {ApiPropertyOptions} from "@nestjs/swagger";
-import {IsNumberOptions} from "class-validator";
+import { Type } from '@nestjs/common';
+import { ApiPropertyOptions } from "@nestjs/swagger";
+import { IsNumberOptions } from "class-validator";
 
 export interface IValidatorOption {
     swaggerDocs: boolean;
@@ -11,6 +11,11 @@ export interface IValidatorOption {
 
 export interface IBooleanValidatorOption extends IValidatorOption {
     ruleType: "boolean";
+}
+
+export interface IPropertyValidatorOption extends IValidatorOption {
+    ruleType: "property";
+    apiPropertyOptions: ApiPropertyOptions
 }
 
 export interface IDateValidatorOption extends IValidatorOption {
@@ -53,6 +58,7 @@ type ValidatorOption =
     | IDateValidatorOption
     | INumberValidatorOption
     | IStringValidatorOption
-    | IUuidValidatorOption;
+    | IUuidValidatorOption
+    | IPropertyValidatorOption;
 
 export default ValidatorOption;
