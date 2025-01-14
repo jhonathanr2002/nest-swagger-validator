@@ -10,8 +10,10 @@ import {
     IsString,
     IsUUID,
     MaxLength,
-    MinLength
+    MinLength,
+    ValidateNested
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ErrorEnum } from '../enums/errors.enum';
@@ -33,21 +35,6 @@ export function IsValidator(options: ValidatorOption) {
             options.apiPropertyOptions.required = true;
         }
 
-        if (options.apiPropertyOptions.required === false) {
-            IsOptional({
-                always: true,
-                each: true,
-                message: (validationArguments: ValidationArguments): string => {
-                    return JSON.stringify({
-                        property: validationArguments.property,
-                        messageCode: ErrorEnum.IS_OPTIONAL,
-                        value: validationArguments.value,
-                        args: {},
-                    });
-                },
-            })(target, propertyKey);
-        }
-
         if (options.swaggerDocs === true) {
             const _options = options as IValidatorOption;
 
@@ -67,24 +54,30 @@ export function IsValidator(options: ValidatorOption) {
                 }
             }
 
-            if (typeof _options['apiPropertyOptions'] == "object") {
-                if (_options['apiPropertyOptions'].required === true) {
-                    ApiPropertyOptional(_options['apiPropertyOptions'])(target, propertyKey);
-                } else {
-                    ApiProperty(_options['apiPropertyOptions'])(target, propertyKey);
-                }
+            if (_options['apiPropertyOptions'].required === true) {
+                ApiProperty(_options['apiPropertyOptions'])(target, propertyKey);
             } else {
-                ApiProperty()(target, propertyKey);
+                ApiPropertyOptional(_options['apiPropertyOptions'])(target, propertyKey);
+
+                IsOptional({
+                    always: true,
+                    each: true,
+                    message: (validationArguments: ValidationArguments): string => {
+                        return JSON.stringify({
+                            property: validationArguments.property,
+                            messageCode: ErrorEnum.IS_OPTIONAL,
+                            value: validationArguments.value,
+                            args: {},
+                        });
+                    },
+                })(target, propertyKey);
             }
         }
-
 
         if (options.ruleType === "array") {
             const _options = options as IArrayValidatorOption;
 
             IsArray({
-                always: true,
-                each: true,
                 message: (validationArguments: ValidationArguments): string => {
                     return JSON.stringify({
                         property: validationArguments.property,
@@ -95,7 +88,12 @@ export function IsValidator(options: ValidatorOption) {
                 },
             })(target, propertyKey);
 
-            if (_options['arrayOptions']['type'] === "uuid") {
+            if (_options.arrayOptions.type) {
+                ValidateNested({ each: true })(target, propertyKey);
+                Type(() => _options.arrayOptions.type)(target, propertyKey);
+            }
+
+            if (_options.arrayOptions.isUuid === true) {
                 IsUUID("all", {
                     always: true,
                     each: true,
@@ -136,7 +134,6 @@ export function IsValidator(options: ValidatorOption) {
                 })(target, propertyKey);
             }
         }
-
         if (options.ruleType === "boolean") {
             IsBoolean({
                 always: true,
