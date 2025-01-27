@@ -47,7 +47,7 @@ export function IsValidator(options: ValidatorOption) {
             if (_options['arrayOptions']) {
                 _options['apiPropertyOptions']['isArray'] = true;
 
-                if (_options['arrayOptions']['type'] === "uuid") {
+                if (_options['arrayOptions']['type'] === "uuid" || typeof _options['arrayOptions']['enum'] !== "undefined") {
                     _options['apiPropertyOptions']['type'] = String;
                 } else {
                     _options['apiPropertyOptions']['type'] = _options['arrayOptions']['type'];
@@ -67,7 +67,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.IS_OPTIONAL,
                             value: validationArguments.value,
-                            args: {},
+                            args: [options.name ?? propertyKey],
                         });
                     },
                 })(target, propertyKey);
@@ -83,7 +83,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_ARRAY,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);
@@ -102,7 +102,35 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.IS_NOT_UUID,
                             value: validationArguments.value,
-                            args: {},
+                            args: [options.name ?? propertyKey, validationArguments.value],
+                        });
+                    },
+                })(target, propertyKey);
+            }
+
+            if (typeof _options.arrayOptions.enum !== "undefined") {
+                IsString({
+                    always: true,
+                    each: true,
+                    message: (validationArguments: ValidationArguments): string => {
+                        return JSON.stringify({
+                            property: validationArguments.property,
+                            messageCode: ErrorEnum.IS_NOT_STRING,
+                            value: validationArguments.value,
+                            args: [options.name ?? propertyKey, validationArguments.value],
+                        });
+                    },
+                })(target, propertyKey);
+
+                IsIn(Object.values(_options.arrayOptions.enum), {
+                    always: true,
+                    each: true,
+                    message: (validationArguments: ValidationArguments): string => {
+                        return JSON.stringify({
+                            property: validationArguments.property,
+                            messageCode: ErrorEnum.ONLY_OPTIONS,
+                            value: validationArguments.value,
+                            args: [options.name ?? propertyKey, Object.values(_options.arrayOptions.enum)?.join(', '), validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -115,7 +143,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.MIN_ARRAY_LENGTH,
                             value: validationArguments.value,
-                            args: [_options.arrayOptions.min, validationArguments.value],
+                            args: [options.name ?? propertyKey, _options.arrayOptions.min, validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -128,7 +156,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.MAX_ARRAY_LENGTH,
                             value: validationArguments.value,
-                            args: [_options.arrayOptions.max, validationArguments.value],
+                            args: [options.name ?? propertyKey, _options.arrayOptions.max, validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -143,7 +171,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_BOOLEAN,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);
@@ -159,7 +187,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_DATE,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);
@@ -173,7 +201,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_NUMBER,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);
@@ -188,7 +216,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_STRING,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);
@@ -202,7 +230,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.ONLY_OPTIONS,
                             value: validationArguments.value,
-                            args: [Object.values(_options.stringOptions.enum)?.join(', ')],
+                            args: [options.name ?? propertyKey, Object.values(_options.stringOptions.enum)?.join(', '), validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -217,7 +245,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.MIN_LENGTH,
                             value: validationArguments.value,
-                            args: [_options.stringOptions.minLength, validationArguments.value],
+                            args: [options.name ?? propertyKey, _options.stringOptions.minLength, validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -232,7 +260,7 @@ export function IsValidator(options: ValidatorOption) {
                             property: validationArguments.property,
                             messageCode: ErrorEnum.MAX_LENGTH,
                             value: validationArguments.value,
-                            args: [_options.stringOptions.maxLength, validationArguments.value],
+                            args: [options.name ?? propertyKey, _options.stringOptions.maxLength, validationArguments.value],
                         });
                     },
                 })(target, propertyKey);
@@ -247,7 +275,7 @@ export function IsValidator(options: ValidatorOption) {
                         property: validationArguments.property,
                         messageCode: ErrorEnum.IS_NOT_UUID,
                         value: validationArguments.value,
-                        args: {},
+                        args: [options.name ?? propertyKey, validationArguments.value],
                     });
                 },
             })(target, propertyKey);

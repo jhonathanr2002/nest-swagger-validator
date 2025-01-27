@@ -1,6 +1,6 @@
-import {HttpStatus, ValidationError} from '@nestjs/common';
-import {Duration, getHttpStatusDescription, ResponseDto, ResponseErrorDto} from 'nest-clean-response';
-import {ErrorEnum} from '../enums/errors.enum';
+import { HttpStatus, ValidationError } from '@nestjs/common';
+import { Duration, getHttpStatusDescription, ResponseDto, ResponseErrorDto } from 'nest-clean-response';
+import { ErrorEnum } from '../enums/errors.enum';
 
 export default function exceptionFactorySwagger(oErrors: ValidationError[]) {
     const oErrorsClient: ResponseErrorDto[] = [];
@@ -10,16 +10,17 @@ export default function exceptionFactorySwagger(oErrors: ValidationError[]) {
             let sKeyError = '';
 
             for (const key of Object.values(ErrorEnum) as string[]) {
-                if (oDetail.includes(key)) {
+                if (oError.constraints[oDetail].includes(key)) {
                     sKeyError = key;
+                    oErrorsClient.push(JSON.parse(oError.constraints[oDetail]));
+                    continue;
                 }
             }
 
             if (sKeyError.length === 0) {
                 sKeyError = 'propertyNoExist';
+                oErrorsClient.push(new ResponseErrorDto(oError.property, sKeyError, [oError.value]));
             }
-
-            oErrorsClient.push(new ResponseErrorDto(oError.property, sKeyError, [oError.value]));
         }
     });
 

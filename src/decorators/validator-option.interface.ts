@@ -6,6 +6,7 @@ import { IsNumberOptions } from "class-validator";
 export interface IValidatorOption {
     swaggerDocs: boolean;
     ruleType: "boolean" | "date" | "number" | "string" | "uuid" | "array" | "property";
+    name?: string
     apiPropertyOptions?: ApiPropertyOptions
 }
 
@@ -47,6 +48,7 @@ export interface IArrayValidatorOption extends IValidatorOption {
     ruleType: "array";
     arrayOptions: {
         type?: Function;
+        enum?: any[] | Record<string, any> | (() => (any[] | Record<string, any>)),
         isUuid?: boolean;
         min?: number;
         max?: number;
