@@ -1,11 +1,22 @@
-import { HttpStatus, ValidationError } from '@nestjs/common';
-import { Duration, getHttpStatusDescription, ResponseDto, ResponseErrorDto } from 'nest-clean-response';
-import { ErrorEnum } from '../enums/errors.enum';
+import {HttpStatus, ValidationError} from '@nestjs/common';
+import {Duration, getHttpStatusDescription, ResponseDto, ResponseErrorDto} from 'nest-clean-response';
+import {ErrorEnum} from '../enums/errors.enum';
 
-export default function exceptionFactorySwagger(oErrors: ValidationError[]) {
+export default function exceptionFactorySwagger(_oErrors: ValidationError[]) {
     const oErrorsClient: ResponseErrorDto[] = [];
 
-    oErrors.forEach((oError) => {
+    let oErrors: ValidationError[] = [];
+
+    _oErrors.forEach((oError: ValidationError) => {
+        oErrors.push(oError);
+
+        oErrors = oErrors.concat(oError.children.map((oItem) => {
+            oItem.property = `${oError.property}.${oItem.property}`;
+            return oItem;
+        }));
+    });
+
+    oErrors.forEach((oError: ValidationError) => {
         for (const oDetail in oError.constraints) {
             let sKeyError = '';
 
