@@ -10,10 +10,12 @@ export default function exceptionFactorySwagger(_oErrors: ValidationError[]) {
     _oErrors.forEach((oError: ValidationError) => {
         oErrors.push(oError);
 
-        oErrors = oErrors.concat(oError.children.map((oItem) => {
-            oItem.property = `${oError.property}.${oItem.property}`;
-            return oItem;
-        }));
+        if(Array.isArray(oError.children)) {
+            oErrors = oErrors.concat(oError.children.map((oItem) => {
+                oItem.property = `${oError.property}.${oItem.property}`;
+                return oItem;
+            }));
+        }
     });
 
     oErrors.forEach((oError: ValidationError) => {
