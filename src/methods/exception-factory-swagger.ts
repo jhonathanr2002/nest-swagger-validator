@@ -1,6 +1,5 @@
 import {HttpStatus, ValidationError} from '@nestjs/common';
-import {Duration, getHttpStatusDescription, ResponseDto, ResponseErrorDto} from 'nest-clean-response';
-import {ErrorEnum} from '../enums/errors.enum';
+import {Duration, ErrorEnum, getHttpStatusDescription, ResponseDto, ResponseErrorDto} from 'nest-clean-response';
 
 export default function exceptionFactorySwagger(_oErrors: ValidationError[]) {
     const oErrorsClient: ResponseErrorDto[] = [];

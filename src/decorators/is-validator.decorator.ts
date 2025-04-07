@@ -16,13 +16,13 @@ import {
 import {Type} from 'class-transformer';
 import {ValidationArguments} from 'class-validator/types/validation/ValidationArguments';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {ErrorEnum} from '../enums/errors.enum';
 import InternalValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
     IStringValidatorOption, IUuidValidatorOption, IValidatorOption
 } from "./internal-validator-option.interface";
 import ValidatorOption from "./validator-option.interface";
+import {ErrorEnum} from "nest-clean-response";
 
 function IsValidatorRules(options: InternalValidatorOption, target: NonNullable<unknown>, propertyKey: string){
     if(!options){
@@ -204,7 +204,7 @@ export function IsValidator(options: ValidatorOption) {
         }
 
         if (typeof options.apiPropertyOptions.required !== "boolean") {
-            options.apiPropertyOptions.required = true;
+            (options.apiPropertyOptions.required as unknown as boolean) = true;
         }
 
         if (options.swaggerDocs === true) {
