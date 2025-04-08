@@ -19,13 +19,15 @@ import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import InternalValidatorOption, {
     IArrayValidatorOption,
     INumberValidatorOption,
-    IStringValidatorOption, IUuidValidatorOption, IValidatorOption
+    IStringValidatorOption,
+    IUuidValidatorOption,
+    IValidatorOption
 } from "./internal-validator-option.interface";
 import ValidatorOption from "./validator-option.interface";
 import {ErrorEnum} from "nest-clean-response";
 
-function IsValidatorRules(options: InternalValidatorOption, target: NonNullable<unknown>, propertyKey: string){
-    if(!options){
+function IsValidatorRules(options: InternalValidatorOption, target: NonNullable<unknown>, propertyKey: string) {
+    if (!options) {
         return;
     }
 
